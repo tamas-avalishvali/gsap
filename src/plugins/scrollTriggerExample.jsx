@@ -20,16 +20,19 @@ export default function ScrollPortfolioSection() {
         pin: true,
         start: "top top",
         pinSpacer: false,
-        end: "+=1000",
+        end: "+=3000",
         scrub: 3,
         markers: true,
       },
     });
 
-    tl.from(gBoxRef.current, { x: -300 })
-      .from(rBoxRef.current, { x: 300 }, "-=0.5")
-      .from(bBoxRef.current, { y: 300 }, "-=0.5")
-      .from(pBoxRef.current, { y: -300 }, "-=0.5");
+    tl.to(gBoxRef.current, { x: -300 })
+      .to(rBoxRef.current, { x: 300 }, "-=0.5")
+      .to(bBoxRef.current, { y: 300 }, "-=0.5")
+      .to(pBoxRef.current, { y: -300 }, "-=0.5");
+    return () => {
+      tl.kill();
+    };
   }, []);
 
   return (

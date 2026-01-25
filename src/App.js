@@ -1,6 +1,7 @@
 import "./App.css";
 // import ScrollTriggerDemo from "./plugins/scrollTriggerDemo";
 import ScrollPortfolioSection from "./plugins/scrollTriggerExample";
+import ScrollTriggerTextExample from "./plugins/scrollTriggerTextExample";
 // import DraggableDemo from "./plugins/draggableDemo";
 // import ScrollToPluginDemo from "./plugins/scrollTo";
 // import TextPlugins from "./plugins/textPlugins";
@@ -37,7 +38,8 @@ function App() {
       {/* <ScrollToPluginDemo/> */}
       {/* <DraggableDemo /> */}
       {/* <ScrollTriggerDemo /> */}
-      <ScrollPortfolioSection/>
+      {/* <ScrollPortfolioSection/> */}
+      <ScrollTriggerTextExample/>
     </div>
   );
 }
