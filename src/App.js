@@ -1,21 +1,9 @@
 import "./App.css";
-// import ScrollTriggerDemo from "./plugins/scrollTriggerDemo";
-import ScrollPortfolioSection from "./plugins/scrollTriggerExample";
-import ScrollTriggerTextExample from "./plugins/scrollTriggerTextExample";
-// import DraggableDemo from "./plugins/draggableDemo";
-// import ScrollToPluginDemo from "./plugins/scrollTo";
-// import TextPlugins from "./plugins/textPlugins";
-// import LabelAndCompleteDemo from "./labelAndComplete";
-// import WordCircleHover from "./wordCircleHover";
-// import FirstExample from "./firstExample";
-// import PositionParameter from "./positionParameter";
-// import FixGlitch from "./fixGlitch";
-// import StaggerManyBoxesDemo from "./staggerManyBoxesDemo";
-// import TransformOriginDemo from "./transformOrigin";
+import FlipExample from "./plugins/flipExample";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ overflowX: "hidden" }}>
       {/* <Animation /> */}
       {/* <SetDemo /> */}
       {/* <ToDemo /> */}
@@ -39,7 +27,9 @@ function App() {
       {/* <DraggableDemo /> */}
       {/* <ScrollTriggerDemo /> */}
       {/* <ScrollPortfolioSection/> */}
-      <ScrollTriggerTextExample/>
+      {/* <ScrollTriggerTextExample/> */}
+      {/* <SvgExample/> */}
+      <FlipExample />
     </div>
   );
 }
