@@ -14,9 +14,9 @@ function Animation() {
 
   // Initialize timeline animations (only once)
   const initTimeline = () => {
-    tl.to(box1.current, { x: 300, rotation: 360, scale: 1.5, opacity: 0.7 })
-      .to(box2.current, { y: 200, rotation: -180, scale: 1.2, opacity: 0.5 })
-      .to(box3.current, { x: 400, rotation: 720, scale: 1.8, opacity: 0.9 });
+    tl.to(box1.current, { x: 300, rotation: 360, opacity: 0.7 })
+      .to(box2.current, { x: 400, rotation: -360, opacity: 0.5 })
+      .to(box3.current, { x: 500, rotation: 720, opacity: 0.9 });
   };
 
   const runAnimation = () => {
@@ -42,7 +42,7 @@ function Animation() {
 
     ////////////////////////////////
     // REPEAT, YOYO, and DELAY
-    // gsap.to(box1.current, { x: 400, rotation: 360, scale: 1.2, repeat: -1, yoyo: true, delay: 1 });
+    // gsap.to(box1.current, { x: 400, rotation: 0, repeat: -1, yoyo: true, delay: 2 });
 
     ////////////////////////////////
     // EASE - different easing functions
@@ -94,6 +94,7 @@ function Animation() {
           backgroundColor: "#22c55e",
           marginTop: 20,
           borderRadius: 12,
+          borderBottom: "2px solid black",
         }}
       />
       <div
@@ -104,6 +105,7 @@ function Animation() {
           backgroundColor: "#ff0000",
           marginTop: 20,
           borderRadius: 12,
+          borderBottom: "2px solid black",
         }}
       />
       <div
@@ -114,6 +116,7 @@ function Animation() {
           backgroundColor: "#3b82f6",
           marginTop: 20,
           borderRadius: 12,
+          borderBottom: "2px solid black",
         }}
       />
     </div>

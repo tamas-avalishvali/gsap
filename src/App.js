@@ -1,5 +1,5 @@
 import "./App.css";
-import FlipExample from "./plugins/flipExample";
+import TitanicMusicGrid from "./stagger-many-boxes-demo";
 
 function App() {
   return (
@@ -28,8 +28,9 @@ function App() {
       {/* <ScrollTriggerDemo /> */}
       {/* <ScrollPortfolioSection/> */}
       {/* <ScrollTriggerTextExample/> */}
+      <TitanicMusicGrid/>
       {/* <SvgExample/> */}
-      <FlipExample />
+      {/* <FlipExample /> */}
     </div>
   );
 }

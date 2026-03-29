@@ -1,4 +1,3 @@
-
 import { Flip } from "gsap/Flip";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
@@ -23,21 +22,43 @@ function FlipExample() {
 
   return (
     <div className="container bg-amber-200 w-full h-screen">
-      <div style={{ width: 200, height: 200 }} className="bg-blue-700" />
       <div
-        ref={box}
         style={{
-          width: "200px",
-          height: "200px",
-          backgroundColor: "red",
-          display: "flex",
           alignItems: "center",
+          backgroundColor: "blue",
+          display: "flex",
+          height: "200px",
           justifyContent: "center",
+          width: "200px",
         }}
       >
         Box 1
       </div>
-      <div style={{ width: 400, height: 200, backgroundColor: "green" }} />
+      <div
+        ref={box}
+        style={{
+          alignItems: "center",
+          backgroundColor: "red",
+          display: "flex",
+          height: "200px",
+          justifyContent: "center",
+          width: "200px",
+        }}
+      >
+        Box 2
+      </div>
+      <div
+        style={{
+          alignItems: "center",
+          backgroundColor: "green",
+          display: "flex",
+          height: "200px",
+          justifyContent: "center",
+          width: "200px",
+        }}
+      >
+        Box 3
+      </div>
     </div>
   );
 }
