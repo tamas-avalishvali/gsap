@@ -1,37 +1,42 @@
-import { useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 
 function TitanicMusicGrid() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const tlRef = useRef(null);
   const containerRef = useRef(null);
   const audioRef = useRef(null);
   const BPM = 72;
   const beat = 60 / BPM;
 
-  const START_OFFSET = 0.3;
+  const START_OFFSET = 0.2;
 
   const sequence = [
-    { note: "E", beats: 0.9 },
-    { note: "F#", beats: 0.9 },
+    { note: "E", beats: 0.4 },
+    { note: "F#", beats: 0.5 },
+    { note: "G", beats: 2.2 },
+
+    { note: "G#", beats: 0.6 },
+    { note: "A", beats: 0.5 },
     { note: "G", beats: 1.8 },
 
-    { note: "A", beats: 0.9 },
-    { note: "G", beats: 0.9 },
-    { note: "F#", beats: 1.8 },
+    { note: "E", beats: 0.5 },
+    { note: "D", beats: 0.8 },
+    { note: "F#", beats: 2 },
+    { note: "F", beats: 2 },
 
-    { note: "E", beats: 0.9 },
-    { note: "D", beats: 0.9 },
-    { note: "E", beats: 1.8 },
+    { note: "G", beats: 0.6 },
+    { note: "A", beats: 0.6 },
+    { note: "G", beats: 2 },
 
-    { note: "F#", beats: 0.9 },
-    { note: "G", beats: 0.9 },
-    { note: "A", beats: 2.5 },
-
-    { note: "G", beats: 1 },
+    { note: "G#", beats: 1 },
     { note: "F#", beats: 1.8 },
 
     { note: "E", beats: 1 },
-    { note: "D", beats: 1 },
-    { note: "E", beats: 2.5 },
+    { note: "D", beats: 1.3 },
+    { note: "E", beats: 1.5 },
+    { note: "F#", beats: 2.5 },
   ];
 
   const noteColors = {
@@ -41,69 +46,79 @@ function TitanicMusicGrid() {
     F: "#4ade80",
     "F#": "#34d399",
     G: "#60a5fa",
+    "G#": "#4293f6",
     A: "#a78bfa",
     B: "#f472b6",
   };
 
-  useEffect(() => {
-    const boxes = containerRef.current.querySelectorAll(".box");
+  const handlePlay = () => {
+    if (!tlRef.current) {
+      const boxes = containerRef.current.querySelectorAll(".box");
 
-    const tl = gsap.timeline({ paused: true });
+      const tl = gsap.timeline();
+      tlRef.current = tl;
 
-    let time = START_OFFSET;
+      let time = START_OFFSET;
 
-    sequence.forEach((item, i) => {
-      const duration = item.beats * beat;
+      sequence.forEach((item, i) => {
+        const duration = item.beats * beat;
 
-      // ✨ glow + pop
-      tl.to(
-        boxes[i],
-        {
-          backgroundColor: noteColors[item.note],
-          scale: 1.25,
-          boxShadow: `0 0 20px ${noteColors[item.note]}`,
-          duration: 0.12,
-          ease: "power2.out",
-          onStart: () => {
-            boxes[i].innerText = item.note;
+        tl.to(
+          boxes[i],
+          {
+            backgroundColor: noteColors[item.note],
+            scale: 1.25,
+            boxShadow: `0 0 25px ${noteColors[item.note]}`,
+            duration: 0.12,
+            ease: "power2.out",
+            onStart: () => (boxes[i].innerText = item.note),
           },
-        },
-        time
-      );
+          time,
+        );
 
-      tl.to(
-        boxes[i],
-        {
-          backgroundColor: "#0f172a",
-          scale: 1,
-          boxShadow: "0 0 0px transparent",
-          duration: 0.25,
-          ease: "power2.inOut",
-        },
-        time + duration - 0.25
-      );
+        tl.to(
+          boxes[i],
+          {
+            backgroundColor: "#0f172a",
+            scale: 1,
+            boxShadow: "0 0 0px transparent",
+            duration: 0.25,
+            ease: "power2.inOut",
+          },
+          time + duration - 0.25,
+        );
 
-      time += duration;
-    });
+        time += duration;
+      });
 
-   // 🎧 audio (muted autoplay allowed)
-    const audio = new Audio("/titanic.mp3");
-    audio.muted = true;
-    audio.play().catch(() => {});
-    audioRef.current = audio;
+      // 🎧 audio
+      const audio = new Audio("/titanic.mp3");
+      audioRef.current = audio;
+      audio.play().catch(() => {});
 
-    tl.play();
+      setIsPlaying(true);
+      setIsPaused(false);
+      tl.play();
+      return;
+    }
 
-    const enableSound = () => {
-      audio.muted = false;
-      audio.play();
-      window.removeEventListener("click", enableSound);
-    };
+    // 🔁 if timeline already exists → resume
+    handleResume();
+  };
+  const handlePause = () => {
+    tlRef.current?.pause();
+    audioRef.current?.pause();
 
-    window.addEventListener("click", enableSound);
+    setIsPaused(true);
+    setIsPlaying(false);
+  };
+  const handleResume = () => {
+    tlRef.current?.play();
+    audioRef.current?.play();
 
-  }, []);
-
+    setIsPaused(false);
+    setIsPlaying(true);
+  };
   return (
     <div
       style={{
@@ -153,6 +168,54 @@ function TitanicMusicGrid() {
             }}
           />
         ))}
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+        <button
+          onClick={() => {
+            if (!tlRef.current) return handlePlay();
+            if (isPlaying) return handlePause();
+            handleResume();
+          }}
+          style={{
+            position: "relative",
+            width: 110,
+            height: 110,
+            borderRadius: "50%",
+            border: "none",
+            cursor: "pointer",
+            background: isPlaying
+              ? "linear-gradient(145deg, #1f2937, #0f172a)"
+              : "radial-gradient(circle at 30% 30%, #38bdf8, #6366f1, #0f172a)",
+            color: "white",
+            fontSize: 16,
+            fontWeight: "600",
+            letterSpacing: 1,
+            boxShadow: isPlaying
+              ? "0 0 0 rgba(0,0,0,0)"
+              : "0 20px 60px rgba(56,189,248,0.35)",
+            transition: "all 0.3s ease",
+            transform: isPlaying ? "scale(0.95)" : "scale(1)",
+            overflow: "hidden",
+          }}
+        >
+          {/* rotating glow ring */}
+          <span
+            style={{
+              position: "absolute",
+              inset: -10,
+              borderRadius: "50%",
+              background:
+                "conic-gradient(from 0deg, #38bdf8, #6366f1, #a78bfa, #38bdf8)",
+              filter: "blur(12px)",
+              animation: "spin 3s linear infinite",
+            }}
+          />
+
+          {/* inner label */}
+          <span style={{ position: "relative", zIndex: 2 }}>
+            {!tlRef.current ? "Play" : isPlaying ? "Pause" : "Resume"}
+          </span>
+        </button>
       </div>
     </div>
   );
